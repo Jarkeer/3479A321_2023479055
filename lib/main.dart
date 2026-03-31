@@ -5,33 +5,111 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Buscaminas',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        primarySwatch: Colors.blue,
       ),
-      home: const Text( "Hola Mundo"),
+      home: const MinesweeperScreen(),
     );
   }
 }
 
+class MinesweeperScreen extends StatelessWidget {
+  
+  const MinesweeperScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Buscaminas'), 
+      ),
+      body: SafeArea( 
+        child: Column( 
+          children: [
+            // Área de Status 
+            Container(
+              height: 60,
+              color: Colors.grey[300],
+              child: const Center(
+                child: Text(
+                  'STATUS: 349 segundos | Minas: 10 | Cuadros: 56',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+              ),
+            ),
+            const Divider(height: 1),
+            // Área de Juego expandida 
+            Expanded(
+              child: _gameBoard(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Metodo que construye el tablero 
+  Widget _gameBoard() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: AspectRatio(
+          aspectRatio: 1.0, 
+          child: GridView.builder(
+            // Bloquea el scroll para que se sienta como un tablero fijo 
+            physics: const NeverScrollableScrollPhysics(), 
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 8, 
+              crossAxisSpacing: 2.0,
+              mainAxisSpacing: 2.0,
+            ),
+            itemCount: 64, // 8x8 celdas 
+            itemBuilder: (context, index) {
+              // Usamos el widget refactorizado 
+              return MineCell(index: index);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Widget atómico para cada celda 
+class MineCell extends StatelessWidget {
+  final int index; // Dato inmutable 
+
+  
+  const MineCell({
+    super.key,
+    required this.index, 
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[400], // Color de la celda 
+        border: Border.all(
+          color: Colors.grey[600]!, 
+          width: 1.5,
+        ), 
+      ),
+      // Puedes agregar un número o icono aquí más adelante
+      child: Center(
+        child: Text(
+          '$index',
+          style: const TextStyle(fontSize: 10, color: Colors.black26),
+        ),
+      ),
+    );
+  }
+}
