@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 void main() {
+  print(  'Iniciando la aplicación de Buscaminas'); // Print
+  logger.d('Iniciando la aplicación de Buscaminas'); // Debug
+  logger.i('Iniciando la aplicación de Buscaminas'); // Info
+  logger.w('Iniciando la aplicación de Buscaminas'); // Warning
+  logger.e('Iniciando la aplicación de Buscaminas');
   runApp(const MyApp());
 }
 
@@ -34,7 +42,7 @@ class MinesweeperScreen extends StatelessWidget {
       body: SafeArea( 
         child: Column( 
           children: [
-            // Área de Status 
+            // Area de Status 
             Container(
               height: 60,
               color: Colors.grey[300],
@@ -64,16 +72,14 @@ class MinesweeperScreen extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1.0, 
           child: GridView.builder(
-            // Bloquea el scroll para que se sienta como un tablero fijo 
             physics: const NeverScrollableScrollPhysics(), 
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 8, 
               crossAxisSpacing: 2.0,
               mainAxisSpacing: 2.0,
             ),
-            itemCount: 64, // 8x8 celdas 
+            itemCount: 64,  
             itemBuilder: (context, index) {
-              // Usamos el widget refactorizado 
               return MineCell(index: index);
             },
           ),
@@ -83,9 +89,9 @@ class MinesweeperScreen extends StatelessWidget {
   }
 }
 
-// Widget atómico para cada celda 
+// Widget atomico para cada celda 
 class MineCell extends StatelessWidget {
-  final int index; // Dato inmutable 
+  final int index; 
 
   
   const MineCell({
@@ -103,7 +109,6 @@ class MineCell extends StatelessWidget {
           width: 1.5,
         ), 
       ),
-      // Puedes agregar un número o icono aquí más adelante
       child: Center(
         child: Text(
           '$index',
