@@ -23,7 +23,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Buscaminas',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal,
+        primary: Colors.teal,
+        secondary: Colors.orange,),
+        scaffoldBackgroundColor: const Color(0xFFE0F7FA),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.black87, fontSize: 16),
+        ),
+        useMaterial3: true
       ),
       home: const MinesweeperScreen(),
     );

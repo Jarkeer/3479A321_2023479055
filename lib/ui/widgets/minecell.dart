@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
 class MineCell extends StatelessWidget {
-  final int index; 
+  final int index;
 
-  
   const MineCell({
     super.key,
-    required this.index, 
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[400], // Color de la celda 
+        color: theme.colorScheme.secondary, // Color de la celda
         border: Border.all(
-          color: Colors.grey[600]!, 
+          color: theme.colorScheme.outline, // ← Sin el ?? Colors.grey
           width: 1.5,
-        ), 
-      ),
-      child: Center(
-        child: Text(
-          '$index',
-          style: const TextStyle(fontSize: 10, color: Colors.black26),
         ),
+      ),
+      child: Image.asset(
+        'assets/icons/land-mine.png',
+        width: 30,
+        height: 30,
       ),
     );
   }
