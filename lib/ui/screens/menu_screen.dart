@@ -7,9 +7,28 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Menu del Buscaminas')),
-      body: const Center(
-        child: Text('Aquí se mostrarán el menu del buscaminas.'),
+      body:  Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/history'),
+              child: const Text('Test ir a Historial'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/about'),
+              child: const Text('Test ir a Acerca de'),
+             ),
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/game'),
+                child: const Text('Test ir a Juego'),
+              ),
+          ],
+        ),
+      
       ),
+      
     );
+    
   }
+  
 }

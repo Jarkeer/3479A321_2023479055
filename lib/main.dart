@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/screens/minesweeper_screen.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_app/ui/screens/about.dart';
+import 'package:flutter_app/ui/screens/history_screen.dart';
+import 'package:flutter_app/ui/screens/menu_screen.dart';
 
 var logger = Logger();
 
@@ -10,6 +13,10 @@ void main() {
   logger.i('Iniciando la aplicación de Buscaminas'); // Info
   logger.w('Iniciando la aplicación de Buscaminas'); // Warning
   logger.e('Iniciando la aplicación de Buscaminas');
+
+  
+
+  
   runApp(const MyApp());
 }
 
@@ -20,6 +27,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/menu',
+
+      routes: {
+        '/menu': (context) => const MenuScreen(),
+        '/game': (context) => const MinesweeperScreen(),
+        '/history': (context) => const HistoryScreen(),
+        '/about': (context) => const AboutScreen(),
+      },
+
       debugShowCheckedModeBanner: false,
       title: 'Buscaminas',
       theme: ThemeData(
