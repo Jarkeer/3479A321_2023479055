@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/screens/menu_screen.dart';
 import 'package:flutter_app/ui/widgets/minecell.dart';
 import 'package:flutter_app/ui/screens/about.dart';
-
+import 'package:flutter_app/ui/screens/history_screen.dart';
 class MinesweeperScreen extends StatelessWidget {
   const MinesweeperScreen({super.key});
 
@@ -21,10 +22,30 @@ class MinesweeperScreen extends StatelessWidget {
               
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const AboutScreen()),
+                MaterialPageRoute(builder: (_) => const HistoryScreen()),
               );
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MenuScreen()),
+              );
+            },
+          ),
+          IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {
+                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AboutScreen()),
+                );
+              },
+            ),
         ],
       ),
       body: SafeArea(
@@ -67,7 +88,7 @@ class MinesweeperScreen extends StatelessWidget {
 
             const Divider(height: 1),
 
-            
+          
             Expanded(
               child: _gameBoard(),
             ),
