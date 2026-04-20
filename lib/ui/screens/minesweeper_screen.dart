@@ -11,6 +11,10 @@ class MinesweeperScreen extends StatelessWidget {
     
     final theme = Theme.of(context);
 
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String difficulty = args?['difficulty'] ?? 'Desconocida';
+    final int gridSize = args?['gridSize'] ?? 8;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buscaminas'),
@@ -63,6 +67,10 @@ class MinesweeperScreen extends StatelessWidget {
             Expanded(
               child: _gameBoard(),
             ),
+            Padding(padding: const EdgeInsets.all( 8.0), child: Text('Dificultad: $difficulty | Tamaño: ${gridSize}x$gridSize',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              ),
           ],
         ),
       ),

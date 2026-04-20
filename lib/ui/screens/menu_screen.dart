@@ -19,7 +19,7 @@ class MenuScreen extends StatelessWidget {
               child: const Text('Test ir a Acerca de'),
              ),
               ElevatedButton(
-                onPressed: () => Navigator.pushNamed(context, '/game'),
+                onPressed: () => Navigator.pushNamed(context, '/game', arguments: {'difficulty': 'Facil', 'gridSize': 8 }),
                 child: const Text('Test ir a Juego'),
               ),
           ],
