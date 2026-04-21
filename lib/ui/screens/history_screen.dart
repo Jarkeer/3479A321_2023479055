@@ -8,18 +8,27 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // Resultado de prueba
-    final game = GameResult(
-      date: '10 Abr',
-      timeSpent: '01:20',
-      isVictory: true,
-      difficulty: 'Fácil',
-    );
+    
+    final List<GameResult> listMaqueta = [
+      GameResult(date: '10 Abr', timeSpent: '01:20', isVictory: true,  difficulty: 'Fácil'),
+      GameResult(date: '09 Abr', timeSpent: '04:45', isVictory: false, difficulty: 'Difícil'),
+      GameResult(date: '08 Abr', timeSpent: '02:10', isVictory: true,  difficulty: 'Medio'),
+      GameResult(date: '07 Abr', timeSpent: '03:30', isVictory: false, difficulty: 'Fácil'),
+      GameResult(date: '06 Abr', timeSpent: '05:00', isVictory: true,  difficulty: 'Difícil'),
+      GameResult(date: '05 Abr', timeSpent: '01:50', isVictory: true,  difficulty: 'Medio'),
+      GameResult(date: '04 Abr', timeSpent: '06:15', isVictory: false, difficulty: 'Difícil'),
+      GameResult(date: '03 Abr', timeSpent: '02:40', isVictory: true,  difficulty: 'Fácil'),
+    ];
 
     return Scaffold(
       appBar: AppBar(title: const Text('Historial de Partidas')),
-      body: Center(
-        child: GameResultUI(game: game),
+      
+      body: ListView.builder(
+        itemCount: listMaqueta.length, 
+        itemBuilder: (context, index) {
+          final game = listMaqueta[index]; 
+          return GameResultUI(game: game); 
+        },
       ),
     );
   }
