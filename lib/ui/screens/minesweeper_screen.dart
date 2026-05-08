@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/screens/menu_screen.dart';
 import 'package:flutter_app/ui/widgets/minecell.dart';
 import 'package:flutter_app/ui/screens/about.dart';
-
+import 'package:flutter_app/ui/screens/history_screen.dart';
 class MinesweeperScreen extends StatelessWidget {
   const MinesweeperScreen({super.key});
 
@@ -10,21 +11,16 @@ class MinesweeperScreen extends StatelessWidget {
     
     final theme = Theme.of(context);
 
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String difficulty = args?['difficulty'] ?? 'Desconocida';
+    final int gridSize = args?['gridSize'] ?? 8;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buscaminas'),
         
         actions: [
-          IconButton(
-            icon: const Icon(Icons.person_outline),
-            onPressed: () {
-              
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const AboutScreen()),
-              );
-            },
-          ),
+      
         ],
       ),
       body: SafeArea(
@@ -67,10 +63,14 @@ class MinesweeperScreen extends StatelessWidget {
 
             const Divider(height: 1),
 
-            
+          
             Expanded(
               child: _gameBoard(),
             ),
+            Padding(padding: const EdgeInsets.all( 8.0), child: Text('Dificultad: $difficulty | Tamaño: ${gridSize}x$gridSize',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+              ),
           ],
         ),
       ),
