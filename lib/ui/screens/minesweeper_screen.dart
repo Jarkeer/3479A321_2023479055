@@ -17,6 +17,7 @@ class _MinesweeperScreenState extends State<MinesweeperScreen> {
   late List<CellModel> _cells;
   final logger = Logger();
   
+  
   @override
 void initState() {
  super.initState();
@@ -42,8 +43,12 @@ void initState() {
  super.dispose();
  }
   
-  
-  
+  void _onCellTapped(int index) {
+ setState(() {
+ _cells[index].isRevealed = true; // Actualizamos el dato
+ });
+}
+
   @override
   Widget build(BuildContext context) {
     
@@ -130,7 +135,10 @@ void initState() {
             ),
             itemCount: 64,
             itemBuilder: (context, index) {
-              return MineCell(index: index);
+              return MineCell(cell: _cells[index], onTap: () {
+                //logger.d('Celda $index presionada');
+                _onCellTapped(index);
+              });
             },
           ),
         ),
