@@ -11,28 +11,40 @@ class MineCell extends StatelessWidget {
     required this.onTap,
   }): super(key: key);
 
+Widget _buildCellContent() {
+    if (!cell.isRevealed) { 
+      return const SizedBox.shrink(); 
+    }
+    if (cell.isBomb) { 
+      return Image.asset( 
+        'assets/icons/land-mine.png', 
+        width: 40, 
+        height: 40, 
+        fit: BoxFit.contain, 
+      );
+    }
+    
+    return Text( 
+      '${cell.index}', 
+      style: const TextStyle( 
+        fontWeight: FontWeight.bold, 
+        color: Colors.blueGrey, 
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return GestureDetector(
-      onTap: onTap,
+   return GestureDetector(
+      onTap: onTap, 
       child: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.secondary, 
-          border: Border.all(
-            color: theme.colorScheme.outline, 
-            width: 1.5,
-          ),
+          color: cell.isRevealed ? Colors.grey[300] : Colors.blue[200],
+          border: Border.all(color: Colors.black26),
         ),
-        child:  cell.isRevealed
-          ? Image.asset(
-              'assets/icons/land-mine.png',
-              width: 30,
-              height: 30,
-            )
-          : const SizedBox.shrink(),
-          
+        child: Center(
+          child: _buildCellContent(), 
+        ),
       ),
     );
   }
