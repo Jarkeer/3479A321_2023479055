@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/ui/screens/menu_screen.dart';
+import 'package:flutter_app/ui/widgets/game_view_model.dart';
+import 'package:provider/provider.dart'; 
+import 'package:logger/logger.dart';
+
+import 'package:flutter_app/models/cellmodel.dart';
 import 'package:flutter_app/ui/widgets/minecell.dart';
-import 'package:flutter_app/ui/screens/about.dart';
-import 'package:flutter_app/ui/screens/history_screen.dart';
+
+
+// MODIFICADO: Ahora es un StatelessWidget
 class MinesweeperScreen extends StatelessWidget {
   const MinesweeperScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
     final theme = Theme.of(context);
+    
+    
+    final viewModel = context.watch<GameViewModel>(); 
 
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final String difficulty = args?['difficulty'] ?? 'Desconocida';
@@ -18,22 +25,17 @@ class MinesweeperScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Buscaminas'),
-        
-        actions: [
-      
-        ],
+        actions: [],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            
             Container(
               height: 60,
               color: theme.colorScheme.primaryContainer, 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Tiempo
                   Row(
                     children: [
                       Icon(Icons.timer, size: 20, color: theme.colorScheme.primary),
@@ -41,7 +43,6 @@ class MinesweeperScreen extends StatelessWidget {
                       const Text('349 seg'),
                     ],
                   ),
-                  
                   Row(
                     children: [
                       Icon(Icons.warning_amber, size: 20, color: theme.colorScheme.primary),
@@ -49,7 +50,6 @@ class MinesweeperScreen extends StatelessWidget {
                       const Text('Minas: 10'),
                     ],
                   ),
-                  
                   Row(
                     children: [
                       Icon(Icons.grid_on, size: 20, color: theme.colorScheme.primary),
@@ -60,25 +60,24 @@ class MinesweeperScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             const Divider(height: 1),
-
-          
             Expanded(
-              child: _gameBoard(),
+              child: _gameBoard(viewModel), 
             ),
-            Padding(padding: const EdgeInsets.all( 8.0), child: Text('Dificultad: $difficulty | Tamaño: ${gridSize}x$gridSize',
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(8.0), 
+              child: Text(
+                'Dificultad: $difficulty | Tamaño: ${gridSize}x$gridSize',
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
-              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  
-  Widget _gameBoard() {
+  Widget _gameBoard(GameViewModel viewModel) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -93,7 +92,15 @@ class MinesweeperScreen extends StatelessWidget {
             ),
             itemCount: 64,
             itemBuilder: (context, index) {
-              return MineCell(index: index);
+
+              final currentCell = viewModel.cells[index]; 
+              
+              return MineCell(
+                cell: currentCell, 
+                onTap: () {
+                  viewModel.revealCell(index); 
+                },
+              );
             },
           ),
         ),

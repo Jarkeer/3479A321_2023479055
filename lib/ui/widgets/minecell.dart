@@ -1,29 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/cellmodel.dart';
 
 class MineCell extends StatelessWidget {
-  final int index;
+  final CellModel cell;
+  final VoidCallback onTap; 
 
   const MineCell({
-    super.key,
-    required this.index,
-  });
+    Key? key,
+    required this.cell,
+    required this.onTap,
+  }): super(key: key);
+
+Widget _buildCellContent() {
+    if (!cell.isRevealed) { 
+      return const SizedBox.shrink(); 
+    }
+    if (cell.isBomb) { 
+      return Image.asset( 
+        'assets/icons/land-mine.png', 
+        width: 40, 
+        height: 40, 
+        fit: BoxFit.contain, 
+      );
+    }
+    
+    return Text( 
+      '${cell.index}', 
+      style: const TextStyle( 
+        fontWeight: FontWeight.bold, 
+        color: Colors.blueGrey, 
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.colorScheme.secondary, // Color de la celda
-        border: Border.all(
-          color: theme.colorScheme.outline, // ← Sin el ?? Colors.grey
-          width: 1.5,
+   return GestureDetector(
+      onTap: onTap, 
+      child: Container(
+        decoration: BoxDecoration(
+          color: cell.isRevealed ? Colors.grey[300] : Colors.blue[200],
+          border: Border.all(color: Colors.black26),
         ),
-      ),
-      child: Image.asset(
-        'assets/icons/land-mine.png',
-        width: 30,
-        height: 30,
+        child: Center(
+          child: _buildCellContent(), 
+        ),
       ),
     );
   }
