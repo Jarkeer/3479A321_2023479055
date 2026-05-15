@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/servicies/storage_services.dart';
 import 'package:flutter_app/ui/screens/minesweeper_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_app/ui/screens/about.dart';
@@ -9,17 +10,10 @@ import 'package:flutter_app/ui/widgets/game_view_model.dart';
 
 var logger = Logger();
 
-void main() {
-  print(  'Iniciando la aplicación de Buscaminas'); // Print
-  logger.d('Iniciando la aplicación de Buscaminas'); // Debug
-  logger.i('Iniciando la aplicación de Buscaminas'); // Info
-  logger.w('Iniciando la aplicación de Buscaminas'); // Warning
-  logger.e('Iniciando la aplicación de Buscaminas');
-
-  
-
-  
-  runApp(const MyApp());
+void main() async {
+WidgetsFlutterBinding.ensureInitialized();
+await StorageService.init();
+runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/menu',
 
       routes: {
-        '/menu': (context) => const MenuScreen(),
+        '/menu': (context) =>  const MenuScreen(),
         '/game': (context) => ChangeNotifierProvider(
               create: (context) => GameViewModel(),
               child: const MinesweeperScreen(),
@@ -40,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/history': (context) => const HistoryScreen(),
         '/about': (context) => const AboutScreen(),
       },
-
+  
       debugShowCheckedModeBanner: false,
       title: 'Buscaminas',
       theme: ThemeData(
@@ -53,6 +47,55 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true
       ),
+    );
+  }
+}
+
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+class _SettingsScreenState extends State<SettingsScreen> {
+  late TextEditingController _nameController;
+  String _selectedDifficulty = 'Fácil';
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text:
+StorageService.getUsername());
+    _selectedDifficulty = StorageService.getDifficulty();
+}
+void _saveSettings() async {
+  await StorageService.saveUsername(_nameController.text);
+   await StorageService.saveDifficulty(_selectedDifficulty);
+  
+  if (mounted) {
+  ScaffoldMessenger.of(context).showSnackBar(
+  const SnackBar(content: Text('Guardado correctamente')),);
+  }
+}
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(title: const Text('Ajustes')),
+    body: Padding(
+    padding: const EdgeInsets.all(16.0),
+  child: Column(
+    children: [
+    TextField(controller: _nameController, decoration: const
+InputDecoration(labelText: 'Jugador')),
+DropdownButton<String>(
+    value: _selectedDifficulty,
+    items: ['Fácil', 'Medio', 'Difícil'].map((v) =>
+DropdownMenuItem(value: v, child: Text(v))).toList(),
+    onChanged: (v) => setState(() => _selectedDifficulty = v!),
+),
+    ElevatedButton(onPressed: _saveSettings, child: const
+Text('Guardar')),
+        ],
+      ),
+    ),
     );
   }
 }

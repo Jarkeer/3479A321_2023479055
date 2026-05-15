@@ -8,7 +8,6 @@ class GameResultUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Solo retornamos la Card, sin Scaffold ni AppBar
     return Card(
       elevation: 4,
       child: Padding(
