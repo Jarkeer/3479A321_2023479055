@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/ui/widgets/game_view_model.dart';
+import 'package:flutter_app/ui/widgets/settings_view_model.dart'; 
 import 'package:provider/provider.dart'; 
 import 'package:logger/logger.dart';
 
 import 'package:flutter_app/models/cellmodel.dart';
 import 'package:flutter_app/ui/widgets/minecell.dart';
 
-
-// MODIFICADO: Ahora es un StatelessWidget
 class MinesweeperScreen extends StatelessWidget {
   const MinesweeperScreen({super.key});
 
@@ -15,12 +14,8 @@ class MinesweeperScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    
-    final viewModel = context.watch<GameViewModel>(); 
-
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final String difficulty = args?['difficulty'] ?? 'Desconocida';
-    final int gridSize = args?['gridSize'] ?? 8;
+    final gameVM = context.watch<GameViewModel>(); 
+    final settingsVM = context.watch<SettingsViewModel>(); 
 
     return Scaffold(
       appBar: AppBar(
@@ -40,21 +35,21 @@ class MinesweeperScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.timer, size: 20, color: theme.colorScheme.primary),
                       const SizedBox(width: 4),
-                      const Text('349 seg'),
+                      Text('${gameVM.secondsElapsed} seg'), 
                     ],
                   ),
                   Row(
                     children: [
                       Icon(Icons.warning_amber, size: 20, color: theme.colorScheme.primary),
                       const SizedBox(width: 4),
-                      const Text('Minas: 10'),
+                      Text('Minas: ${(gameVM.totalCells * 0.15).toInt()}'), 
                     ],
                   ),
                   Row(
                     children: [
                       Icon(Icons.grid_on, size: 20, color: theme.colorScheme.primary),
                       const SizedBox(width: 4),
-                      const Text('Cuadros: 56'),
+                      Text('Cuadros: ${gameVM.totalCells}'), 
                     ],
                   ),
                 ],
@@ -62,12 +57,12 @@ class MinesweeperScreen extends StatelessWidget {
             ),
             const Divider(height: 1),
             Expanded(
-              child: _gameBoard(viewModel), 
+              child: _gameBoard(gameVM), 
             ),
             Padding(
               padding: const EdgeInsets.all(8.0), 
               child: Text(
-                'Dificultad: $difficulty | Tamaño: ${gridSize}x$gridSize',
+                'Dificultad: ${settingsVM.difficulty} | Tamaño: ${gameVM.gridSize}x${gameVM.gridSize}',
                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
               ),
             ),
@@ -85,12 +80,12 @@ class MinesweeperScreen extends StatelessWidget {
           aspectRatio: 1.0,
           child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 8,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: viewModel.gridSize, 
               crossAxisSpacing: 2.0,
               mainAxisSpacing: 2.0,
             ),
-            itemCount: 64,
+            itemCount: viewModel.totalCells, 
             itemBuilder: (context, index) {
 
               final currentCell = viewModel.cells[index]; 
