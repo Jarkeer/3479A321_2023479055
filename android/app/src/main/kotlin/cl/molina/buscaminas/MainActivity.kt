@@ -1,4 +1,4 @@
-package com.example.flutter_app
+package cl.molina.buscaminas
 
 import io.flutter.embedding.android.FlutterActivity
 
