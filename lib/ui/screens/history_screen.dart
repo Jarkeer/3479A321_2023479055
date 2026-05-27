@@ -10,14 +10,14 @@ class HistoryScreen extends StatelessWidget {
 
     
     final List<GameResult> listMaqueta = [
-      GameResult(date: '10 Abr', timeSpent: '01:20', isVictory: true,  difficulty: 'Fácil'),
-      GameResult(date: '09 Abr', timeSpent: '04:45', isVictory: false, difficulty: 'Difícil'),
-      GameResult(date: '08 Abr', timeSpent: '02:10', isVictory: true,  difficulty: 'Medio'),
-      GameResult(date: '07 Abr', timeSpent: '03:30', isVictory: false, difficulty: 'Fácil'),
-      GameResult(date: '06 Abr', timeSpent: '05:00', isVictory: true,  difficulty: 'Difícil'),
-      GameResult(date: '05 Abr', timeSpent: '01:50', isVictory: true,  difficulty: 'Medio'),
-      GameResult(date: '04 Abr', timeSpent: '06:15', isVictory: false, difficulty: 'Difícil'),
-      GameResult(date: '03 Abr', timeSpent: '02:40', isVictory: true,  difficulty: 'Fácil'),
+      GameResult(date: '10 Abr', timeSpent: '01:20', isVictory: true,  difficulty: 'Fácil',adjacentMines: 3),
+      GameResult(date: '09 Abr', timeSpent: '04:45', isVictory: false, difficulty: 'Difícil',adjacentMines: 3),
+      GameResult(date: '08 Abr', timeSpent: '02:10', isVictory: true,  difficulty: 'Medio',adjacentMines: 3),
+      GameResult(date: '07 Abr', timeSpent: '03:30', isVictory: false, difficulty: 'Fácil',adjacentMines: 3),
+      GameResult(date: '06 Abr', timeSpent: '05:00', isVictory: true,  difficulty: 'Difícil',adjacentMines: 3),
+      GameResult(date: '05 Abr', timeSpent: '01:50', isVictory: true,  difficulty: 'Medio',adjacentMines: 3),
+      GameResult(date: '04 Abr', timeSpent: '06:15', isVictory: false, difficulty: 'Difícil', adjacentMines: 3),
+      GameResult(date: '03 Abr', timeSpent: '02:40', isVictory: true,  difficulty: 'Fácil', adjacentMines: 3),
     ];
 
     return Scaffold(
