@@ -1,11 +1,14 @@
-import 'dart:async'; // NUEVO: Necesario para usar Timer
+import 'dart:async'; 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/cellmodel.dart';
+import 'package:audioplayers/audioplayers.dart'; 
 
 class GameViewModel extends ChangeNotifier {
   late List<CellModel> _cells;
   bool _isGameOver = false;
+
+  final AudioPlayer _sfxPlayer = AudioPlayer(); 
 
   int gridSize;
   late int totalCells;
@@ -19,6 +22,11 @@ class GameViewModel extends ChangeNotifier {
   GameViewModel({this.gridSize = 8}) {
     totalCells = gridSize * gridSize;
     _generateBoard();
+  }
+
+  void _playSound(String fileName) async {
+    await _sfxPlayer.release();
+    await _sfxPlayer.play(AssetSource('audio/$fileName'));
   }
 
   void _generateBoard() {
@@ -38,7 +46,6 @@ class GameViewModel extends ChangeNotifier {
     
     _calculateAdjacentMines();
   }
-
   
   void _calculateAdjacentMines() {
     for (int i = 0; i < _cells.length; i++) {
@@ -75,7 +82,6 @@ class GameViewModel extends ChangeNotifier {
   void revealCell(int index) {
     if (_isGameOver || _cells[index].isRevealed) return;
     
-    
     if (_isFirstTap) {
       _startTimer();
       _isFirstTap = false;
@@ -86,7 +92,10 @@ class GameViewModel extends ChangeNotifier {
     if (_cells[index].isBomb) {
       _isGameOver = true;
       _timer?.cancel(); 
+      _playSound('explosion.mp3'); 
       _revealAll();
+    } else {
+      _playSound('ontap.mp3'); 
     }
     
     notifyListeners();
@@ -97,9 +106,11 @@ class GameViewModel extends ChangeNotifier {
       cell.isRevealed = true;
     }
   }
+
   @override
   void dispose() {
     _timer?.cancel();
+    _sfxPlayer.dispose(); 
     super.dispose();
   }
 }
